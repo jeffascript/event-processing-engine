@@ -17,7 +17,7 @@ type ProcessEvent<T> = {
 };
 
 //shorturl.at/rABIS
-class EventProcessor<T> {
+class EventProcessor<T extends object> {
   private handlers: Handler<T>[] = []; // [...handlers, {filterListing: () => boolean | undefined, mapListing: () => unknown}]
   private processed: ProcessEvent<T>[] = [];
 
