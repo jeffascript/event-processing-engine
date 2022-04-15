@@ -1,5 +1,3 @@
-// An Event processing Engine using generics and mapped types
-
 // define the class structure for the event processor
 
 type MapReturnType<T> = (data: T) => T;
@@ -38,9 +36,8 @@ class EventProcessor<T> {
     }
 
     if (allowEvent) {
-      let mappedEventData = { ...eventData };
+      let mappedEventData = { ...eventData }; //alternatively: Object.assign({}, eventData)
 
-      //  let mappedEvents =   Object.assign({}, eventData)
       for (const handler of this.handlers) {
         const mapFunc = handler[`map${capitalize(<string>eventName)}` as keyof Handler<T>] as unknown as MapReturnType<T[K]> | undefined;
         //as unknown as ((value: T[K]) => T[K]) | undefined;
@@ -82,7 +79,7 @@ userEventProcessor.handleEvent("removeLogin", { username: "joyuser" }); //should
 console.log(userEventProcessor.getProcessedEvents());
 /*
 
- Result:
+ Expected Result:
  [
   {
     eventName: 'addLogin',
