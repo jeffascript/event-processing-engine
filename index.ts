@@ -1,3 +1,5 @@
+import assert from "assert";
+
 // define the class structure for the event processor
 
 type MapReturnType<T> = (data: T) => T;
@@ -76,17 +78,15 @@ userEventProcessor.handleEvent("addLogin", { name: "Joy", username: "userIsJoy" 
 userEventProcessor.handleEvent("addLogin", { name: "tom" }); //does not exist
 userEventProcessor.handleEvent("removeLogin", { username: "joyuser" }); //should work since it is an exisiting user
 
-console.log(userEventProcessor.getProcessedEvents());
-/*
-
- Expected Result:
- [
+//check if the ProcessedEvents match the expected result
+const expectedResult = [
   {
-    eventName: 'addLogin',
-    eventData: { name: 'Joy', username: 'userIsJoy', hasAccess: true }
+    eventName: "addLogin",
+    eventData: { name: "Joy", username: "userIsJoy", hasAccess: true },
   },
-  { eventName: 'removeLogin', eventData: { username: 'joyuser' } }
-]
+  { eventName: "removeLogin", eventData: { username: "joyuser" } },
+] as const;
 
+assert.deepEqual(userEventProcessor.getProcessedEvents(), expectedResult, "The processed events don't match the expected result");
 
-  */
+console.log(userEventProcessor.getProcessedEvents());
